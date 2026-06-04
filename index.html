@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>讀書計畫 · Study Zen</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600&family=Shippori+Mincho:wght@400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+/* ============================
+   CSS VARIABLES & THEMES
+   ============================ */
+:root {
+  /* Japanese theme (default) */
+  --bg: #faf7f2;
+  --bg2: #f3ede4;
+  --bg3: #ede4d8;
+  --surface: #fffdf9;
+  --surface2: #f7f2ea;
+  --border: #d9cfc2;
+  --border2: #c8bbaa;
+  --text: #2c2420;
+  --text2: #6b5a4e;
+  --text3: #9c8a7e;
+  --accent: #c47c5a;
+  --accent2: #a85c3a;
+  --accent-light: #f0d8c8;
+  --urgent: #c4453a;
+  --urgent-light: #fde8e7;
+  --high: #c47c5a;
+  --high-light: #f7e6d8;
+  --med: #8a9a72;
+  --med-light: #e8f0dc;
+  --low: #7a8fa8;
+  --low-light: #dce6f0;
+  --done: #b0a898;
+  --done-light: #ede9e4;
+  --shadow: rgba(60,40,20,0.08);
+  --shadow2: rgba(60,40,20,0.15);
+  --font-display: 'Shippori Mincho', 'Noto Serif TC', serif;
+  --font-body: 'Noto Serif TC', serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --radius: 12px;
+  --radius2: 20px;
+}
+
+[data-theme="western"] {
+  --bg: #f9f6f0;
+  --bg2: #f0ebe0;
+  --bg3: #e8e0d0;
+  --surface: #fffef8;
+  --surface2: #f5f0e8;
+  --border: #d8cdb8;
+  --border2: #c4b89a;
+  --text: #1e1a14;
+  --text2: #5c4e36;
+  --text3: #8a7860;
+  --accent: #8b6914;
+  --accent2: #6b5010;
+  --accent-light: #f5e8c0;
+  --urgent: #a83228;
+  --urgent-light: #fce8e6;
+  --high: #8b6914;
+  --high-light: #f5e8c0;
+  --med: #5a7a48;
+  --med-light: #e4f0da;
+  --low: #486890;
+  --low-light: #dce8f5;
+  --done: #a89880;
+  --done-light: #ede8e0;
+  --shadow: rgba(40,30,10,0.1);
+  --shadow2: rgba(40,30,10,0.18);
+  --font-display: 'Playfair Display', 'Noto Serif TC', serif;
+  --font-body: 'Cormorant Garamond', 'Noto Serif TC', serif;
+}
+
+[data-theme="european"] {
+  --bg: #f5f4f8;
+  --bg2: #ededf5;
+  --bg3: #e3e2ef;
+  --surface: #fefefe;
+  --surface2: #f3f2f8;
+  --border: #d0cede;
+  --border2: #b8b5cc;
+  --text: #1a1828;
+  --text2: #4a4668;
+  --text3: #7e7a9a;
+  --accent: #6854a8;
+  --accent2: #4e3d88;
+  --accent-light: #e8e2f8;
+  --urgent: #b83060;
+  --urgent-light: #fce4ef;
+  --high: #6854a8;
+  --high-light: #e8e2f8;
+  --med: #3a8870;
+  --med-light: #d8f0e8;
+  --low: #4878b8;
+  --low-light: #daeaf8;
+  --done: #9890b8;
+  --done-light: #eae8f5;
+  --shadow: rgba(20,18,40,0.08);
+  --shadow2: rgba(20,18,40,0.15);
+  --font-display: 'DM Serif Display', 'Noto Serif TC', serif;
+  --font-body: 'Cormorant Garamond', 'Noto Serif TC', serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ============================
+   LAYOUT
+   ============================ */
+#app { max-width: 480px; margin: 0 auto; padding-bottom: 100px; }
+
+/* ============================
+   HEADER
+   ============================ */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 20px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+.header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.app-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+.app-subtitle { font-size: 12px; color: var(--text3); letter-spacing: 0.08em; margin-top: 1px; }
+
+.style-switcher { display: flex; gap: 6px; }
+.style-btn {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--surface2);
+  cursor: pointer;
+  font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.style-btn.active, .style-btn:active { border-color: var(--accent); transform: scale(1.1); }
+
+/* Progress bar */
+.progress-section { margin-top: 4px; }
+.progress-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); margin-bottom: 5px; letter-spacing: 0.05em; }
+.progress-bar { height: 6px; background: var(--bg2); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 3px; transition: width 0.5s ease; }
+
+/* ============================
+   TABS
+   ============================ */
+.tabs {
+  display: flex;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab-btn {
+  flex: 1;
+  min-width: 70px;
+  padding: 12px 8px;
+  border: none;
+  background: none;
+  color: var(--text3);
+  font-family: var(--font-body);
+  font-size: 12px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); background: var(--surface); }
+
+/* ============================
+   SOS BUTTON
+   ============================ */
+.sos-bar {
+  padding: 12px 20px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.sos-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radius);
+  border: 2px dashed var(--border2);
+  background: none;
+  color: var(--text2);
+  font-family: var(--font-body);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.03em;
+}
+.sos-btn:active { background: var(--bg2); border-color: var(--accent); color: var(--accent); transform: scale(0.98); }
+
+/* ============================
+   ENCOURAGEMENT TOAST
+   ============================ */
+.encourage-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.encourage-overlay.show { opacity: 1; pointer-events: all; }
+.encourage-card {
+  background: var(--surface);
+  border-radius: var(--radius2);
+  padding: 32px 28px;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 24px 60px var(--shadow2);
+  transform: translateY(20px);
+  transition: transform 0.3s;
+}
+.encourage-overlay.show .encourage-card { transform: translateY(0); }
+.encourage-emoji { font-size: 52px; margin-bottom: 16px; }
+.encourage-text {
+  font-family: var(--font-display);
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.encourage-sub { font-size: 13px; color: var(--text3); line-height: 1.6; margin-bottom: 24px; }
+.encourage-close {
+  padding: 12px 32px;
+  border-radius: 100px;
+  border: none;
+  background: var(--accent);
+  color: white;
+  font-family: var(--font-body);
+  font-size: 14px;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+}
+
+/* ============================
+   CONTENT PAGES
+   ============================ */
+.page { display: none; padding: 16px 20px; }
+.page.active { display: block; }
+
+/* ============================
+   SECTIONS & CARDS
+   ============================ */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  margin-top: 20px;
+}
+.section-header:first-child { margin-top: 0; }
+.section-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.add-btn {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent);
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1;
+  box-shadow: 0 2px 8px var(--shadow2);
+  transition: transform 0.15s;
+}
+.add-btn:active { transform: scale(0.9); }
+
+.task-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px var(--shadow);
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.task-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--accent);
+}
+.task-card.priority-urgent::before { background: var(--urgent); }
+.task-card.priority-high::before { background: var(--high); }
+.task-card.priority-med::before { background: var(--med); }
+.task-card.priority-low::before { background: var(--low); }
+.task-card.done { opacity: 0.5; }
+.task-card.done .task-title { text-decoration: line-through; }
+
+.task-top { display: flex; align-items: flex-start; gap: 10px; }
+.task-check {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--border2);
+  background: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  margin-top: 1px;
+}
+.task-check.checked { background: var(--accent); border-color: var(--accent); }
+.task-check.checked::after { content: '✓'; color: white; font-size: 12px; }
+
+.task-info { flex: 1; min-width: 0; }
+.task-title { font-size: 15px; color: var(--text); line-height: 1.5; font-weight: 400; }
+.task-meta { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+}
+.badge-urgent { background: var(--urgent-light); color: var(--urgent); }
+.badge-high { background: var(--high-light); color: var(--high); }
+.badge-med { background: var(--med-light); color: var(--med); }
+.badge-low { background: var(--low-light); color: var(--low); }
+.badge-subject { background: var(--bg2); color: var(--text2); }
+.badge-deadline { background: var(--bg3); color: var(--text2); }
+
+.task-actions { display: flex; gap: 4px; margin-top: 1px; flex-shrink: 0; }
+.icon-btn {
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  border: none;
+  background: var(--bg2);
+  color: var(--text3);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.icon-btn:active { background: var(--bg3); transform: scale(0.92); }
+
+/* Subtasks */
+.subtasks { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+.subtask-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--bg2);
+}
+.subtask-item:last-child { border-bottom: none; }
+.subtask-check {
+  width: 18px; height: 18px;
+  border-radius: 4px;
+  border: 2px solid var(--border2);
+  background: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  transition: all 0.15s;
+}
+.subtask-check.checked { background: var(--med); border-color: var(--med); color: white; }
+.subtask-label { font-size: 13px; color: var(--text2); flex: 1; }
+.subtask-done { text-decoration: line-through; color: var(--text3); }
+
+.subtask-progress { margin-top: 6px; }
+.subtask-progress-bar { height: 3px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
+.subtask-progress-fill { height: 100%; background: var(--med); border-radius: 2px; transition: width 0.3s; }
+.subtask-count { font-size: 11px; color: var(--text3); margin-top: 3px; font-family: var(--font-mono); }
+
+/* ============================
+   HOURS PLANNER
+   ============================ */
+.subject-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px var(--shadow);
+}
+.subject-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.subject-name { font-family: var(--font-display); font-size: 16px; font-weight: 600; color: var(--text); }
+.subject-color-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.hours-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.hours-label { font-size: 12px; color: var(--text3); width: 50px; flex-shrink: 0; letter-spacing: 0.04em; }
+.hours-bar { flex: 1; height: 8px; background: var(--bg2); border-radius: 4px; overflow: hidden; }
+.hours-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; }
+.hours-num { font-family: var(--font-mono); font-size: 12px; color: var(--text2); width: 36px; text-align: right; flex-shrink: 0; }
+.hours-input {
+  width: 56px;
+  padding: 4px 8px;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  background: var(--bg2);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  text-align: center;
+}
+.hours-input:focus { outline: none; border-color: var(--accent); background: var(--surface); }
+
+/* ============================
+   MODAL / BOTTOM SHEET
+   ============================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 500;
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+.modal-overlay.show { opacity: 1; pointer-events: all; }
+.modal-sheet {
+  background: var(--surface);
+  border-radius: 24px 24px 0 0;
+  padding: 20px 20px 40px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.modal-overlay.show .modal-sheet { transform: translateY(0); }
+.modal-handle { width: 40px; height: 4px; background: var(--border2); border-radius: 2px; margin: 0 auto 20px; }
+.modal-title { font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 20px; }
+
+.form-group { margin-bottom: 16px; }
+.form-label { font-size: 12px; color: var(--text3); letter-spacing: 0.06em; margin-bottom: 6px; display: block; }
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  background: var(--bg2);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  transition: border-color 0.2s;
+  appearance: none;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--surface);
+}
+.form-textarea { min-height: 80px; resize: vertical; }
+
+.priority-picker { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.priority-opt {
+  padding: 10px 4px;
+  border-radius: var(--radius);
+  border: 2px solid var(--border);
+  background: var(--surface2);
+  text-align: center;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: var(--text2);
+}
+.priority-opt.selected { border-width: 2px; font-weight: 600; }
+.priority-opt[data-p="urgent"].selected { border-color: var(--urgent); background: var(--urgent-light); color: var(--urgent); }
+.priority-opt[data-p="high"].selected { border-color: var(--high); background: var(--high-light); color: var(--high); }
+.priority-opt[data-p="med"].selected { border-color: var(--med); background: var(--med-light); color: var(--med); }
+.priority-opt[data-p="low"].selected { border-color: var(--low); background: var(--low-light); color: var(--low); }
+
+.subtask-list-input { margin-bottom: 8px; }
+.subtask-input-row { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; }
+.subtask-input-row input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  background: var(--bg2);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+}
+.subtask-input-row input:focus { outline: none; border-color: var(--accent); }
+.remove-sub-btn {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: var(--bg3);
+  color: var(--text3);
+  font-size: 16px;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.add-sub-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0;
+  border: none;
+  background: none;
+  color: var(--accent);
+  font-family: var(--font-body);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: white;
+  font-family: var(--font-body);
+  font-size: 16px;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  box-shadow: 0 4px 16px var(--shadow2);
+  transition: all 0.15s;
+  margin-top: 8px;
+}
+.submit-btn:active { transform: scale(0.98); opacity: 0.9; }
+
+/* ============================
+   STATS
+   ============================ */
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  text-align: center;
+}
+.stat-num { font-family: var(--font-display); font-size: 28px; font-weight: 800; color: var(--accent); }
+.stat-label { font-size: 11px; color: var(--text3); margin-top: 2px; letter-spacing: 0.06em; }
+
+/* ============================
+   EMPTY STATE
+   ============================ */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text3);
+}
+.empty-icon { font-size: 40px; margin-bottom: 12px; }
+.empty-text { font-size: 14px; line-height: 1.7; }
+
+/* ============================
+   ANIMATIONS
+   ============================ */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.task-card { animation: slideIn 0.25s ease; }
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+.sos-btn:focus { animation: pulse 1.5s infinite; }
+
+/* subject color classes */
+.color-0 { background: #c47c5a; }
+.color-1 { background: #5a8a72; }
+.color-2 { background: #6854a8; }
+.color-3 { background: #a85c3a; }
+.color-4 { background: #3a7898; }
+.color-5 { background: #9a6a28; }
+.color-6 { background: #7a4a8a; }
+.color-7 { background: #3a8a5a; }
+
+/* Big add button */
+.big-add-btn {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: white;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 16px var(--shadow2);
+  transition: transform 0.15s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  letter-spacing: 0.04em;
+  margin-bottom: 16px;
+}
+.big-add-btn:active { transform: scale(0.98); }
+.big-add-sub { font-family: var(--font-body); font-size: 11px; font-weight: 400; opacity: 0.85; letter-spacing: 0.02em; }
+
+/* Guide card */
+.guide-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px var(--shadow);
+  position: relative;
+}
+.guide-title { font-family: var(--font-display); font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 10px; }
+.guide-step { font-size: 13px; color: var(--text2); line-height: 1.7; margin-bottom: 7px; }
+.guide-step:last-child { margin-bottom: 0; }
+.guide-step b { color: var(--accent); }
+.guide-close {
+  position: absolute; top: 10px; right: 12px;
+  width: 24px; height: 24px;
+  border: none; background: var(--bg2); color: var(--text3);
+  border-radius: 50%; font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.guide-card.hidden { display: none; }
+
+/* Page hint */
+.page-hint {
+  background: var(--accent-light);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--text2);
+  margin-bottom: 16px;
+}
+
+/* Progress tracker */
+.prog-bignum { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.prog-done { font-family: var(--font-display); font-size: 30px; font-weight: 800; line-height: 1; }
+.prog-sep { font-family: var(--font-mono); font-size: 14px; color: var(--text2); }
+.prog-left { margin-left: auto; font-size: 12px; color: var(--text3); font-family: var(--font-mono); }
+.prog-controls { display: flex; align-items: center; gap: 8px; }
+.prog-input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  background: var(--bg2);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  text-align: center;
+}
+.prog-input:focus { outline: none; border-color: var(--accent); background: var(--surface); }
+.prog-step {
+  width: 44px; height: 40px;
+  border: none;
+  border-radius: 8px;
+  background: var(--bg3);
+  color: var(--text);
+  font-size: 20px;
+  font-family: var(--font-body);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.1s;
+  display: flex; align-items: center; justify-content: center;
+}
+.prog-step:active { transform: scale(0.9); }
+.prog-step5 { width: 48px; font-size: 15px; font-family: var(--font-mono); background: var(--accent); color: white; }
+</style>
+</head>
+<body>
+
+<div id="loadError" style="display:none;padding:40px 20px;text-align:center;font-family:sans-serif;color:#c47c5a;">
+  <div style="font-size:40px;margin-bottom:16px;">⚠️</div>
+  <div style="font-size:16px;margin-bottom:8px;">載入失敗</div>
+  <div style="font-size:13px;color:#999;">請重新整理頁面試試</div>
+</div>
+<div id="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="app-title" id="appTitle">讀書計畫</div>
+        <div class="app-subtitle" id="appSubtitle">今天也很努力了 · Study Zen</div>
+      </div>
+      <div class="style-switcher">
+        <button class="style-btn active" data-theme="japanese" title="日式" onclick="setTheme('japanese',this)">🌸</button>
+        <button class="style-btn" data-theme="western" title="美式" onclick="setTheme('western',this)">🤠</button>
+        <button class="style-btn" data-theme="european" title="歐式" onclick="setTheme('european',this)">🏛️</button>
+      </div>
+    </div>
+    <div class="progress-section">
+      <div class="progress-label">
+        <span>今日進度</span>
+        <span id="progressText">0 / 0 完成</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('tasks',this)">📋 任務</button>
+    <button class="tab-btn" onclick="switchTab('hours',this)">📊 進度追蹤</button>
+    <button class="tab-btn" onclick="switchTab('subjects',this)">📚 科目</button>
+  </div>
+
+  <!-- SOS BAR -->
+  <div class="sos-bar">
+    <button class="sos-btn" onclick="showEncouragement()">
+      🫂 撐不下去了，給我一句話
+    </button>
+  </div>
+
+  <!-- ===== PAGE: TASKS ===== -->
+  <div class="page active" id="page-tasks">
+
+    <!-- Big add button -->
+    <button class="big-add-btn" onclick="openAddTask('med')">
+      ＋ 新增任務
+      <span class="big-add-sub">輸入任務 → 選輕重緩急 → 自動分類</span>
+    </button>
+
+    <!-- How-to guide (dismissible) -->
+    <div class="guide-card" id="guideCard">
+      <button class="guide-close" onclick="dismissGuide()">×</button>
+      <div class="guide-title">📖 怎麼用？</div>
+      <div class="guide-step"><b>1. 科目</b>＝你要讀的「科別」（微積分、英文…），先去「📚 科目」頁建立，順便設每週想讀幾小時。</div>
+      <div class="guide-step"><b>2. 任務</b>＝具體要做的「事」（複習第三章、寫考古題…）。新增時可以選優先度，也可以掛在某個科目下。</div>
+      <div class="guide-step"><b>3. 進度追蹤</b>＝用科目看實際進度：寫了幾題、讀了幾單元，離總量還剩多少。</div>
+      <div class="guide-step" style="color:var(--text3);">💡 一句話：科目是分類，任務是待辦。沒有科目也能單純新增任務。</div>
+    </div>
+
+    <!-- Urgent -->
+    <div class="section-header">
+      <div class="section-title">🔴 緊急</div>
+      <button class="add-btn" onclick="openAddTask('urgent')">+</button>
+    </div>
+    <div id="list-urgent"></div>
+
+    <!-- High -->
+    <div class="section-header">
+      <div class="section-title">🟠 重要</div>
+      <button class="add-btn" onclick="openAddTask('high')">+</button>
+    </div>
+    <div id="list-high"></div>
+
+    <!-- Med -->
+    <div class="section-header">
+      <div class="section-title">🟡 普通</div>
+      <button class="add-btn" onclick="openAddTask('med')">+</button>
+    </div>
+    <div id="list-med"></div>
+
+    <!-- Low -->
+    <div class="section-header">
+      <div class="section-title">🔵 緩</div>
+      <button class="add-btn" onclick="openAddTask('low')">+</button>
+    </div>
+    <div id="list-low"></div>
+  </div>
+
+  <!-- ===== PAGE: HOURS ===== -->
+  <div class="page" id="page-hours">
+    <div style="padding: 4px 0 16px;">
+      <div class="page-hint">📊 追蹤實際進度：每科設好總量（例：120 題、20 單元），記錄完成多少。先到「📚 科目」頁建立科目。</div>
+      <div class="stats-grid" id="hoursStats"></div>
+      <div id="hoursList"></div>
+    </div>
+  </div>
+
+  <!-- ===== PAGE: SUBJECTS ===== -->
+  <div class="page" id="page-subjects">
+    <div class="page-hint">📚 科目是分類，例如「微積分」「英文」。建立時設好單位與總量（幾題/幾單元），「進度追蹤」就會幫你算還剩多少。</div>
+    <div class="section-header">
+      <div class="section-title">📚 我的科目</div>
+      <button class="add-btn" onclick="openAddSubject()">+</button>
+    </div>
+    <div id="subjectList"></div>
+  </div>
+
+</div><!-- end #app -->
+
+<!-- ============================
+     ENCOURAGEMENT OVERLAY
+     ============================ -->
+<div class="encourage-overlay" id="encourageOverlay" onclick="closeEncouragement()">
+  <div class="encourage-card" onclick="event.stopPropagation()">
+    <div class="encourage-emoji" id="encEmoji">🌸</div>
+    <div class="encourage-text" id="encText">你已經比昨天的自己更努力了。</div>
+    <div class="encourage-sub" id="encSub">不用完美，只要前進就好。</div>
+    <button class="encourage-close" onclick="closeEncouragement()">謝謝，繼續加油 💪</button>
+  </div>
+</div>
+
+<!-- ============================
+     ADD TASK MODAL
+     ============================ -->
+<div class="modal-overlay" id="addTaskModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">新增任務</div>
+
+    <div class="form-group">
+      <label class="form-label">① 任務名稱</label>
+      <input class="form-input" id="taskTitle" placeholder="例：複習第三章微積分" />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">② 輕重緩急（會被分到對應區塊）</label>
+      <div class="priority-picker">
+        <div class="priority-opt" data-p="urgent" onclick="selectPriority('urgent')">🔴<br>緊急</div>
+        <div class="priority-opt" data-p="high" onclick="selectPriority('high')">🟠<br>重要</div>
+        <div class="priority-opt selected" data-p="med" onclick="selectPriority('med')">🟡<br>普通</div>
+        <div class="priority-opt" data-p="low" onclick="selectPriority('low')">🔵<br>緩</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">科目（選填）</label>
+      <select class="form-select" id="taskSubject">
+        <option value="">— 不分科目 —</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">截止日期（選填）</label>
+      <input class="form-input" id="taskDeadline" type="date" />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">子任務（把大任務切小塊！選填）</label>
+      <div id="subtaskInputs"></div>
+      <button class="add-sub-btn" onclick="addSubtaskInput()">＋ 新增子任務</button>
+    </div>
+
+    <button class="submit-btn" onclick="submitTask()">加入計畫 ✓</button>
+    <button class="submit-btn" style="background:var(--bg3);color:var(--text2);box-shadow:none;margin-top:8px;" onclick="closeModal('addTaskModal')">取消</button>
+  </div>
+</div>
+
+<!-- ============================
+     ADD SUBJECT MODAL
+     ============================ -->
+<div class="modal-overlay" id="addSubjectModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">新增科目</div>
+    <div class="form-group">
+      <label class="form-label">科目名稱</label>
+      <input class="form-input" id="subjectName" placeholder="例：線性代數、英文、物理..." />
+    </div>
+    <div class="form-group">
+      <label class="form-label">進度單位</label>
+      <select class="form-select" id="subjectUnit">
+        <option value="題">題目（題）</option>
+        <option value="單元">單元</option>
+        <option value="章">章節（章）</option>
+        <option value="頁">頁數（頁）</option>
+        <option value="篇">篇</option>
+        <option value="回">回（考古題）</option>
+        <option value="個">個</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">總共要完成多少？</label>
+      <input class="form-input" id="subjectTarget" type="number" placeholder="例：120" min="1" />
+    </div>
+    <button class="submit-btn" onclick="submitSubject()">加入科目 ✓</button>
+    <button class="submit-btn" style="background:var(--bg3);color:var(--text2);box-shadow:none;margin-top:8px;" onclick="closeModal('addSubjectModal')">取消</button>
+  </div>
+</div>
+
+<script>
+// ============================
+// STATE
+// ============================
+window.onerror = function(msg, src, line, col, err) {
+  document.getElementById('loadError').style.display = 'block';
+  document.getElementById('app').style.display = 'none';
+  console.error('Error:', msg, 'Line:', line, err);
+  return false;
+};
+
+let state = {
+  tasks: [],
+  subjects: [],
+  nextId: 1
+};
+
+// Try load from localStorage
+try {
+  const saved = localStorage.getItem('studyzen');
+  if (saved) state = JSON.parse(saved);
+} catch(e) {}
+
+function save() {
+  try { localStorage.setItem('studyzen', JSON.stringify(state)); } catch(e) {}
+}
+
+// ============================
+// THEMES
+// ============================
+const themeConfig = {
+  japanese: { title: '讀書計畫', subtitle: '今天也很努力了 · 静心向前' },
+  western:  { title: 'Study Plan', subtitle: "You're doing great · Keep going" },
+  european: { title: 'Plan d\'Étude', subtitle: 'Chaque effort compte · Study Zen' }
+};
+
+function setTheme(theme, btn) {
+  document.documentElement.setAttribute('data-theme', theme === 'japanese' ? '' : theme);
+  document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('appTitle').textContent = themeConfig[theme].title;
+  document.getElementById('appSubtitle').textContent = themeConfig[theme].subtitle;
+}
+
+// ============================
+// ENCOURAGEMENTS
+// ============================
+const encouragements = [
+  { emoji: '🌸', text: '你已經比昨天的自己更努力了。', sub: '不需要完美，只要前進就好。' },
+  { emoji: '🌙', text: '深呼吸，喝口水，再來一段。', sub: '大腦需要休息才能記住更多。' },
+  { emoji: '🔥', text: '撐過這個時期，你會感謝現在的自己。', sub: '每一分鐘的努力都算數。' },
+  { emoji: '🌿', text: '不是每天都有動力，但每天都能選擇行動。', sub: '你今天選擇了坐下來讀書，這就夠了。' },
+  { emoji: '⭐', text: '你不是最聰明的，但你比大多數人更努力。', sub: '勤能補拙，你做得到。' },
+  { emoji: '🧁', text: '讀書辛苦了，等你讀完去吃個好吃的。', sub: '小小的獎勵讓大腦保持動力。' },
+  { emoji: '💙', text: '你不需要一次搞懂所有的事。', sub: '每次讀懂一點點，日積月累就不得了。' },
+  { emoji: '🌅', text: '現在的每一分鐘，都是未來的你在感謝自己。', sub: '堅持是最難的，你已經在做了。' },
+  { emoji: '🦋', text: '知識正在慢慢刻進你的大腦裡。', sub: '看不到不代表沒有進展，繼續。' },
+  { emoji: '🏔️', text: '山頂的風景值得這段辛苦的路。', sub: '你比你以為的更接近目標了。' },
+  { emoji: '✨', text: '有些日子就是特別難熬。', sub: '但這些日子的你，才是最值得驕傲的你。' },
+  { emoji: '🫶', text: '好好照顧自己，才能持續讀書。', sub: '你很好，你已經夠努力了。' },
+];
+
+let lastEncIdx = -1;
+function showEncouragement() {
+  let idx;
+  do { idx = Math.floor(Math.random() * encouragements.length); } while (idx === lastEncIdx);
+  lastEncIdx = idx;
+  const e = encouragements[idx];
+  document.getElementById('encEmoji').textContent = e.emoji;
+  document.getElementById('encText').textContent = e.text;
+  document.getElementById('encSub').textContent = e.sub;
+  document.getElementById('encourageOverlay').classList.add('show');
+}
+function closeEncouragement() {
+  document.getElementById('encourageOverlay').classList.remove('show');
+}
+
+// ============================
+// TABS
+// ============================
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('page-' + name).classList.add('active');
+  if (name === 'hours') renderHours();
+  if (name === 'subjects') renderSubjects();
+}
+
+// ============================
+// MODAL
+// ============================
+function openModal(id) { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+// ============================
+// TASKS
+// ============================
+let currentPriority = 'med';
+
+function openAddTask(priority) {
+  currentPriority = priority || 'med';
+  // reset form
+  document.getElementById('taskTitle').value = '';
+  document.getElementById('taskDeadline').value = '';
+  document.getElementById('subtaskInputs').innerHTML = '';
+  selectPriority(currentPriority);
+  // populate subjects
+  const sel = document.getElementById('taskSubject');
+  sel.innerHTML = '<option value="">— 不分科目 —</option>';
+  state.subjects.forEach(s => {
+    const o = document.createElement('option');
+    o.value = s.id;
+    o.textContent = s.name;
+    sel.appendChild(o);
+  });
+  openModal('addTaskModal');
+}
+
+function selectPriority(p) {
+  currentPriority = p;
+  document.querySelectorAll('.priority-opt').forEach(el => {
+    el.classList.toggle('selected', el.dataset.p === p);
+  });
+}
+
+let subtaskCount = 0;
+function addSubtaskInput(value = '') {
+  subtaskCount++;
+  const id = 'sub_' + subtaskCount;
+  const div = document.createElement('div');
+  div.className = 'subtask-input-row';
+  div.id = 'row_' + id;
+  div.innerHTML = `<input placeholder="子任務內容..." value="${value}" id="${id}" /><button class="remove-sub-btn" onclick="removeSubInput('row_${id}')">×</button>`;
+  document.getElementById('subtaskInputs').appendChild(div);
+}
+function removeSubInput(rowId) {
+  document.getElementById(rowId)?.remove();
+}
+
+function submitTask() {
+  const title = document.getElementById('taskTitle').value.trim();
+  if (!title) { document.getElementById('taskTitle').focus(); return; }
+
+  const subtasksEls = document.querySelectorAll('#subtaskInputs input');
+  const subtasks = [];
+  subtasksEls.forEach(el => {
+    const v = el.value.trim();
+    if (v) subtasks.push({ id: state.nextId++, text: v, done: false });
+  });
+
+  const task = {
+    id: state.nextId++,
+    title,
+    priority: currentPriority,
+    subject: document.getElementById('taskSubject').value,
+    deadline: document.getElementById('taskDeadline').value,
+    subtasks,
+    done: false,
+    createdAt: Date.now()
+  };
+
+  state.tasks.push(task);
+  save();
+  closeModal('addTaskModal');
+  renderTasks();
+  updateProgress();
+}
+
+function toggleTask(id) {
+  const t = state.tasks.find(t => t.id === id);
+  if (t) { t.done = !t.done; save(); renderTasks(); updateProgress(); }
+}
+
+function toggleSubtask(taskId, subId) {
+  const t = state.tasks.find(t => t.id === taskId);
+  if (!t) return;
+  const s = t.subtasks.find(s => s.id === subId);
+  if (s) { s.done = !s.done; save(); renderTasks(); }
+}
+
+function deleteTask(id) {
+  state.tasks = state.tasks.filter(t => t.id !== id);
+  save(); renderTasks(); updateProgress();
+}
+
+function renderTasks() {
+  const priorities = ['urgent','high','med','low'];
+  priorities.forEach(p => {
+    const container = document.getElementById('list-' + p);
+    const tasks = state.tasks.filter(t => t.priority === p);
+    if (!tasks.length) {
+      container.innerHTML = `<div class="empty-state"><div class="empty-icon">${p==='urgent'?'✅':p==='high'?'📖':p==='med'?'📝':'🌿'}</div><div class="empty-text">目前沒有任務</div></div>`;
+      return;
+    }
+    container.innerHTML = '';
+    tasks.forEach(t => {
+      const sub = state.subjects.find(s => s.id == t.subject);
+      const subName = sub ? sub.name : '';
+      const subDone = t.subtasks.filter(s => s.done).length;
+      const subTotal = t.subtasks.length;
+      const subPct = subTotal ? Math.round(subDone / subTotal * 100) : 0;
+
+      const card = document.createElement('div');
+      card.className = `task-card priority-${t.priority}${t.done ? ' done' : ''}`;
+      card.innerHTML = `
+        <div class="task-top">
+          <button class="task-check${t.done?' checked':''}" onclick="toggleTask(${t.id})"></button>
+          <div class="task-info">
+            <div class="task-title">${esc(t.title)}</div>
+            <div class="task-meta">
+              ${t.priority === 'urgent' ? '<span class="badge badge-urgent">緊急</span>' : ''}
+              ${t.priority === 'high' ? '<span class="badge badge-high">重要</span>' : ''}
+              ${subName ? `<span class="badge badge-subject">${esc(subName)}</span>` : ''}
+              ${t.deadline ? `<span class="badge badge-deadline">📅 ${t.deadline}</span>` : ''}
+            </div>
+          </div>
+          <div class="task-actions">
+            <button class="icon-btn" onclick="deleteTask(${t.id})">🗑</button>
+          </div>
+        </div>
+        ${subTotal > 0 ? `
+          <div class="subtasks">
+            ${t.subtasks.map(s => `
+              <div class="subtask-item">
+                <button class="subtask-check${s.done?' checked':''}" onclick="toggleSubtask(${t.id},${s.id})">${s.done?'✓':''}</button>
+                <span class="subtask-label${s.done?' subtask-done':''}">${esc(s.text)}</span>
+              </div>
+            `).join('')}
+            <div class="subtask-progress">
+              <div class="subtask-progress-bar"><div class="subtask-progress-fill" style="width:${subPct}%"></div></div>
+              <div class="subtask-count">${subDone} / ${subTotal} 完成 · ${subPct}%</div>
+            </div>
+          </div>
+        ` : ''}
+      `;
+      container.appendChild(card);
+    });
+  });
+}
+
+function updateProgress() {
+  const all = state.tasks.length;
+  const done = state.tasks.filter(t => t.done).length;
+  document.getElementById('progressText').textContent = `${done} / ${all} 完成`;
+  document.getElementById('progressFill').style.width = all ? (done/all*100)+'%' : '0%';
+}
+
+// ============================
+// SUBJECTS
+// ============================
+const subjectColors = ['#c47c5a','#5a8a72','#6854a8','#a85c3a','#3a7898','#9a6a28','#7a4a8a','#3a8a5a'];
+
+function openAddSubject() {
+  document.getElementById('subjectName').value = '';
+  document.getElementById('subjectTarget').value = '';
+  document.getElementById('subjectUnit').value = '題';
+  openModal('addSubjectModal');
+}
+
+function submitSubject() {
+  const name = document.getElementById('subjectName').value.trim();
+  if (!name) return;
+  const target = parseInt(document.getElementById('subjectTarget').value) || 1;
+  const unit = document.getElementById('subjectUnit').value || '題';
+  state.subjects.push({
+    id: state.nextId++,
+    name,
+    unit,
+    target,
+    logged: 0,
+    colorIdx: state.subjects.length % subjectColors.length
+  });
+  save();
+  closeModal('addSubjectModal');
+  renderSubjects();
+  renderHours();
+}
+
+function deleteSubject(id) {
+  state.subjects = state.subjects.filter(s => s.id !== id);
+  save(); renderSubjects(); renderHours();
+}
+
+function renderSubjects() {
+  const container = document.getElementById('subjectList');
+  if (!state.subjects.length) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">📚</div><div class="empty-text">還沒有科目，點 ＋ 新增</div></div>`;
+    return;
+  }
+  container.innerHTML = state.subjects.map((s,i) => `
+    <div class="subject-card">
+      <div class="subject-header">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="subject-color-dot" style="background:${subjectColors[s.colorIdx]}"></div>
+          <div class="subject-name">${esc(s.name)}</div>
+        </div>
+        <button class="icon-btn" onclick="deleteSubject(${s.id})">🗑</button>
+      </div>
+      <div class="hours-row">
+        <span class="hours-label" style="font-size:11px;color:var(--text3);">總共要完成</span>
+        <input class="hours-input" type="number" value="${s.target}" min="1"
+          onchange="updateSubjectTarget(${s.id}, this.value)" />
+        <span class="hours-num" style="width:auto;color:var(--text3);font-size:11px;">${esc(s.unit||'題')}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateSubjectTarget(id, val) {
+  const s = state.subjects.find(s => s.id === id);
+  if (s) { s.target = parseInt(val)||1; save(); renderHours(); }
+}
+
+// ============================
+// PROGRESS TRACKER
+// ============================
+function renderHours() {
+  const statsEl = document.getElementById('hoursStats');
+  const listEl = document.getElementById('hoursList');
+
+  const totalTarget = state.subjects.reduce((a,s) => a + (s.target||0), 0);
+  const totalDone = state.subjects.reduce((a,s) => a + (s.logged||0), 0);
+  const totalLeft = Math.max(0, totalTarget - totalDone);
+  statsEl.innerHTML = `
+    <div class="stat-card">
+      <div class="stat-num">${totalDone}</div>
+      <div class="stat-label">已完成</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">${totalLeft}</div>
+      <div class="stat-label">還剩</div>
+    </div>
+  `;
+
+  if (!state.subjects.length) {
+    listEl.innerHTML = `<div class="empty-state"><div class="empty-icon">📊</div><div class="empty-text">先在「📚 科目」頁新增科目<br>並設定總量，才能追蹤進度</div></div>`;
+    return;
+  }
+
+  listEl.innerHTML = state.subjects.map(s => {
+    const unit = s.unit || '題';
+    const done = s.logged || 0;
+    const target = s.target || 1;
+    const left = Math.max(0, target - done);
+    const pct = Math.min(100, Math.round(done / target * 100));
+    const finished = done >= target;
+    return `
+      <div class="subject-card">
+        <div class="subject-header">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="subject-color-dot" style="background:${subjectColors[s.colorIdx]}"></div>
+            <div class="subject-name">${esc(s.name)}</div>
+          </div>
+          <span style="font-family:var(--font-mono);font-size:12px;color:${finished?'var(--med)':'var(--text3)'};">${finished?'✓ 完成':pct+'%'}</span>
+        </div>
+        <div class="prog-bignum">
+          <span class="prog-done" style="color:${subjectColors[s.colorIdx]}">${done}</span>
+          <span class="prog-sep">/ ${target} ${esc(unit)}</span>
+          ${finished ? '' : `<span class="prog-left">還剩 ${left} ${esc(unit)}</span>`}
+        </div>
+        <div class="hours-bar" style="margin:8px 0 12px;"><div class="hours-fill" style="background:${subjectColors[s.colorIdx]};width:${pct}%"></div></div>
+        <div class="prog-controls">
+          <button class="prog-step" onclick="bumpProgress(${s.id},-1)">－</button>
+          <input class="prog-input" type="number" value="${done}" min="0"
+            onchange="setProgress(${s.id}, this.value)" />
+          <button class="prog-step" onclick="bumpProgress(${s.id},1)">＋</button>
+          <button class="prog-step prog-step5" onclick="bumpProgress(${s.id},5)">+5</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function bumpProgress(id, delta) {
+  const s = state.subjects.find(s => s.id === id);
+  if (!s) return;
+  const before = s.logged || 0;
+  s.logged = Math.max(0, before + delta);
+  save();
+  renderHours();
+  if (delta > 0 && before < s.target && s.logged >= s.target) {
+    showEncouragement();
+  }
+}
+
+function setProgress(id, val) {
+  const s = state.subjects.find(s => s.id === id);
+  if (s) { s.logged = Math.max(0, parseInt(val)||0); save(); renderHours(); }
+}
+
+// ============================
+// UTILS
+// ============================
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ============================
+// GUIDE
+// ============================
+function dismissGuide() {
+  document.getElementById('guideCard').classList.add('hidden');
+  state.guideDismissed = true;
+  save();
+}
+
+// ============================
+// INIT
+// ============================
+if (state.guideDismissed) {
+  document.getElementById('guideCard').classList.add('hidden');
+}
+renderTasks();
+updateProgress();
+renderSubjects();
+renderHours();
+</script>
+</body>
+</html>
